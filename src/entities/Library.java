@@ -1,11 +1,14 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Library {
 
+
     public static void menu() {
+        System.out.println();
         System.out.println("============ LIBRARY ============");
         System.out.println("1 - Register a book");
         System.out.println("2 - Search by code");

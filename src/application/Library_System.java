@@ -1,8 +1,11 @@
 package application;
 
 import entities.Book;
+import entities.Loan;
 import entities.Student;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static entities.Library.*;
@@ -12,6 +15,7 @@ public class Library_System {
 
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         List<Book> list = new ArrayList<>();
         List<Student> studentsList = new ArrayList<>();
@@ -21,7 +25,7 @@ public class Library_System {
         do {
             menu();
 
-            System.out.println("Choose an option: ");
+            System.out.print("Choose an option: ");
             option = sc.nextInt();
 
             Book book;
@@ -92,8 +96,6 @@ public class Library_System {
                     if (book == null) {
                         System.out.print("Book not found.");
                     } else {
-                        System.out.println("Book available");
-
                         if (book.isAvailable()) {
                             System.out.print("Student name: ");
                             sc.nextLine();
@@ -105,11 +107,13 @@ public class Library_System {
                             String email = sc.nextLine();
 
                             Student student = new Student(name, email, id);
-                            book.borrowBook(student);
+                            Loan loan = new Loan(student, book);
+                            book.setLoan(loan);
 
-                            System.out.println("Successfully, you can get the book lend.");
+                            System.out.println("Successfully, you will return the book on " + loan.returnDate.format(formatter));
+
                         } else {
-                            System.out.println(book.loanInfo());
+                            System.out.println(book);
                         }
                     }
                     break;

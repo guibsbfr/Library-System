@@ -1,6 +1,7 @@
 package entities;
 import application.Library_System;
 import entities.Student;
+import java.time.LocalDate;
 
 public class Book {
 
@@ -10,6 +11,7 @@ public class Book {
     private boolean available;
     private int year;
     private Student student;
+    private Loan loan;
 
     public Book() {
     }
@@ -41,15 +43,6 @@ public class Book {
     public boolean isAvailable() {
         return available;
     }
-    public String loanInfo() {
-        if (student != null) {
-            return "Code: " + code
-                    + "\nTitle: " + title
-                    + "\nAuthor: " + author
-                    + "\nLend for: " + student.getName();
-        }
-        return "Book available";
-    }
 
     public void borrowBook(Student student) {
         this.student = student;
@@ -60,11 +53,22 @@ public class Book {
         student = null;
     }
 
+    public void setLoan(Loan loan) {
+    }
+
     public String toString() {
-        return "Code: " + code
-                + "\nTitle: " + title
-                + "\nAuthor: " + author
-                + "\nYear: " + year
-                + "\nAvailable: " + available;
+        if (isAvailable()) {
+            return "\nCode: "
+                    + code
+                    + "\nTitle: "
+                    + title
+                    + "\nAuthor: "
+                    + author
+                    + "\nYear: "
+                    + year;
+        } else {
+            return "Book unavailable, will be returned on: "
+                    + loan.getReturnDate();
+        }
     }
 }
