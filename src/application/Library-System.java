@@ -18,7 +18,6 @@ public class Library_System {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         List<Book> list = new ArrayList<>();
-        List<Student> studentsList = new ArrayList<>();
 
         int option;
 

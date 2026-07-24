@@ -24,7 +24,7 @@ public class Student {
         return email;
     }
 
-    public int getCpf() {
+    public int getId() {
         return id;
     }
 

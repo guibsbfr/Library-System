@@ -50,10 +50,11 @@ public class Book {
     }
     public void returnBook() {
         available = true;
-        student = null;
+        loan = null;
     }
 
     public void setLoan(Loan loan) {
+        this.loan = loan;
     }
 
     public String toString() {
@@ -67,8 +68,7 @@ public class Book {
                     + "\nYear: "
                     + year;
         } else {
-            return "Book unavailable, will be returned on: "
-                    + loan.getReturnDate();
+            return loan.toString();
         }
     }
 }

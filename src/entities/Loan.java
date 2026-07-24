@@ -1,15 +1,14 @@
 package entities;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 
 public class Loan {
-    private Student student;
-    private Book book;
-    public LocalDate date;
-    public LocalDate returnDate;
+    public Student student;
+    public Book book;
+    private LocalDate date;
+    private LocalDate returnDate;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -28,22 +27,9 @@ public class Loan {
         book.borrowBook(student);
     }
 
-    public Book getBook() {
-        return book;
-    }
-
     public LocalDate getReturnDate() {
         return returnDate;
     }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
 
     public String toString() {
         if (student != null) {
