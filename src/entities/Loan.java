@@ -1,5 +1,7 @@
 package entities;
 
+import enums.BookStatus;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
@@ -7,18 +9,17 @@ import java.time.format.DateTimeFormatter;
 public class Loan {
     public Student student;
     public Book book;
-    private LocalDate date;
     private LocalDate returnDate;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Loan(Student student, Book book) {
 
-        if (!book.isAvailable()) {
+        if (book.getStatus() == BookStatus.UNAVAILABLE) {
             System.out.println("Unavailable book");
             return;
         }
-        this.date = LocalDate.now();
+        LocalDate date = LocalDate.now();
         this.returnDate = date.plusDays(15);
 
         this.student = student;
@@ -32,7 +33,7 @@ public class Loan {
     }
 
     public String toString() {
-        if (student != null) {
+        if (book.getStatus() == BookStatus.UNAVAILABLE) {
             return  "\nLend for: "
                     + student.getName()
                     + "\nBook, unavailable!"

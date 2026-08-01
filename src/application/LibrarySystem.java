@@ -3,14 +3,14 @@ package application;
 import entities.Book;
 import entities.Loan;
 import entities.Student;
+import enums.BookStatus;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static entities.Library.*;
 
-public class Library_System {
+public class LibrarySystem {
     public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
@@ -95,7 +95,7 @@ public class Library_System {
                     if (book == null) {
                         System.out.print("Book not found.");
                     } else {
-                        if (book.isAvailable()) {
+                        if (book.getStatus() == BookStatus.AVAILABLE) {
                             System.out.print("Student name: ");
                             sc.nextLine();
                             String name = sc.nextLine();
@@ -107,9 +107,9 @@ public class Library_System {
 
                             Student student = new Student(name, email, id);
                             Loan loan = new Loan(student, book);
-                            book.setLoan(loan);
+                            book.setStatus(BookStatus.UNAVAILABLE);
 
-                            System.out.println("Successfully, you will return the book on " + loan.returnDate.format(formatter));
+                            System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
 
                         } else {
                             System.out.println(book);
@@ -118,16 +118,16 @@ public class Library_System {
                     break;
                 case 6:
 
-                    System.out.print("What book do you wanna return? ");
+                    System.out.print("Which book do you wanna return? ");
                     code = sc.nextInt();
 
                     book = findByCode(list, code);
 
                     if (book == null) {
-                        System.out.println("Book not found.");
+                        System.out.println("This book is not part of our library.");
                     } else {
                         System.out.println("Thanks for return book.");
-                        book.returnBook();
+                        book.setStatus(BookStatus.AVAILABLE);
                     }
                     break;
                 case 7:
@@ -137,7 +137,7 @@ public class Library_System {
                     }
                     break;
                 case 0:
-                    System.out.print("Finish program");
+                    System.out.print("End program");
                     break;
             }
         } while (option != 0);
