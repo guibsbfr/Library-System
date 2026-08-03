@@ -1,9 +1,5 @@
 package entities;
-import application.LibrarySystem;
-import entities.Student;
 import enums.BookStatus;
-
-import java.time.LocalDate;
 
 public class Book {
 
@@ -24,10 +20,11 @@ public class Book {
         this.author = author;
         this.year = year;
 
+        status = BookStatus.AVAILABLE;
     }
 
     public BookStatus getStatus() {
-       return status = BookStatus.AVAILABLE;
+       return status;
     }
 
     public Integer getCode() {
@@ -46,29 +43,32 @@ public class Book {
         return year;
     }
 
-    public void setStatus(BookStatus bookStatus) {
+    public void setStatus(BookStatus status) {
+        this.status = status;
     }
 
-    public void borrowBook(Student student) {
-        this.student = student;
+    public void borrow(Student student) {
+        setStatus(BookStatus.UNAVAILABLE);
     }
 
-    public void setLoan(Loan loan) {
-        this.loan = loan;
+    public void returnBook() {
+        setStatus(BookStatus.AVAILABLE);
     }
 
     public String toString() {
-        if (student == null) {
-            return "\nCode: "
+            String text = "\nCode: "
                     + code
                     + "\nTitle: "
                     + title
                     + "\nAuthor: "
                     + author
                     + "\nYear: "
-                    + year;
-        } else {
+                    + year
+                    + "\nStatus: "
+                    + status;
+        if (loan != null) {
             return loan.toString();
         }
+        return text;
     }
 }

@@ -107,8 +107,7 @@ public class LibrarySystem {
 
                             Student student = new Student(name, email, id);
                             Loan loan = new Loan(student, book);
-                            book.setStatus(BookStatus.UNAVAILABLE);
-
+                            book.borrow(student);
                             System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
 
                         } else {
@@ -126,8 +125,11 @@ public class LibrarySystem {
                     if (book == null) {
                         System.out.println("This book is not part of our library.");
                     } else {
+                        if (book.getStatus() == BookStatus.AVAILABLE) {
+                            System.out.println("This book is already returned");
+                        }
                         System.out.println("Thanks for return book.");
-                        book.setStatus(BookStatus.AVAILABLE);
+                        book.returnBook();
                     }
                     break;
                 case 7:
@@ -139,6 +141,7 @@ public class LibrarySystem {
                 case 0:
                     System.out.print("End program");
                     break;
+
             }
         } while (option != 0);
 
