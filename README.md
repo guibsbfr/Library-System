@@ -1,6 +1,6 @@
 # Library System
 
-## A simple library management system developed in Java.
+A simple library management system developed in Java.
 
 ### Goals
 
