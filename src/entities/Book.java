@@ -1,5 +1,8 @@
 package entities;
+
 import enums.BookStatus;
+
+import java.time.format.DateTimeFormatter;
 
 public class Book {
 
@@ -10,6 +13,8 @@ public class Book {
     private int year;
     private Student student;
     private Loan loan;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Book() {
     }
@@ -24,7 +29,7 @@ public class Book {
     }
 
     public BookStatus getStatus() {
-       return status;
+        return status;
     }
 
     public Integer getCode() {
@@ -43,32 +48,44 @@ public class Book {
         return year;
     }
 
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
     public void setStatus(BookStatus status) {
         this.status = status;
     }
 
     public void borrow(Student student) {
+        this.student = student;
         setStatus(BookStatus.UNAVAILABLE);
     }
 
     public void returnBook() {
+        this.student = null;
         setStatus(BookStatus.AVAILABLE);
     }
 
     public String toString() {
-            String text = "\nCode: "
-                    + code
-                    + "\nTitle: "
-                    + title
-                    + "\nAuthor: "
-                    + author
-                    + "\nYear: "
-                    + year
-                    + "\nStatus: "
-                    + status;
-        if (loan != null) {
-            return loan.toString();
-        }
-        return text;
+        StringBuilder data = new StringBuilder();
+            data.append("Title: ");
+            data.append(title).append("\n");
+            data.append("Author: ");
+            data.append(author).append("\n");
+            data.append("Year: ");
+            data.append(year).append("\n");
+            data.append("Status: ");
+            data.append(status).append("\n");
+
+            data.append("Lend for: ");
+            data.append(student.getName()).append("\n");
+            data.append("Will be return on: ");
+            data.append(loan.getReturnDate().format(formatter)).append("\n");
+
+        return data.toString();
     }
 }

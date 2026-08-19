@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Loan {
-    public Student student;
-    public Book book;
+    private Student student;
+    private Book book;
     private LocalDate returnDate;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -28,12 +28,5 @@ public class Loan {
 
     public LocalDate getReturnDate() {
         return returnDate;
-    }
-
-    public String toString() {
-            return "\nLend for: "
-                    + student.getName()
-                    + "\nWill be returned on "
-                    + returnDate.format(formatter);
     }
 }

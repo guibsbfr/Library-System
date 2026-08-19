@@ -22,7 +22,8 @@ public class LibrarySystem {
         int option;
 
         do {
-            menu();
+
+        menu();
 
             System.out.print("Choose an option: ");
             option = sc.nextInt();
@@ -107,8 +108,10 @@ public class LibrarySystem {
 
                             Student student = new Student(name, email, id);
                             Loan loan = new Loan(student, book);
+                            book.setLoan(loan);
                             book.borrow(student);
                             System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
+
 
                         } else {
                             System.out.println(book);
