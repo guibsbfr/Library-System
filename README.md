@@ -2,24 +2,23 @@
 
 A simple library management system developed in Java.
 
-## Goals
+### Goals
 
 - Practice Object-Oriented Programming
 - Reinforce programming logic
-- Improve software design
+- Improve software composition and design
 - Learn class relationships and responsibility separation
 
-## Features
+### Features
 
 - Register books
 - Search by code
 - Search by title
 - Search by author
-- Borrow books
+- borrow books
 - Return books
 - List all books
 
-## Technologies
+### Technologies
 
 - Java
-- IntelliJ IDEA
