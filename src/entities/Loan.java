@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class Loan {
     private Student student;
     private Book book;
-    private LocalDate returnDate;
+    private final LocalDate returnDate;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

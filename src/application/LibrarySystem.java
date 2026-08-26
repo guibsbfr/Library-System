@@ -18,6 +18,7 @@ public class LibrarySystem {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         List<Book> list = new ArrayList<>();
+        Map<Integer, Book> bookMap = new HashMap<>();
 
         int option;
 
@@ -48,13 +49,14 @@ public class LibrarySystem {
 
                         book = new Book(code, title, author, year);
                         list.add(book);
+                        bookMap.put(code, book);
                     }
                     break;
                 case 2:
                     System.out.print("Book code: ");
-                    code = sc.nextInt();
+                    int code2 = sc.nextInt();
 
-                    book = findByCode(list, code);
+                    book = findByCode(list, code2);
 
                     if (book != null) {
                         System.out.print(book);
@@ -77,21 +79,24 @@ public class LibrarySystem {
                     break;
                 case 4:
                     System.out.print("Book author: ");
+                    sc.nextLine();
                     String author = sc.nextLine();
 
-                    book = findByAuthor(list, author);
+                    List<Book> booksByAuthor = findByAuthor(list, author);
 
-                    if (book != null) {
-                        System.out.print(book);
+                    if (booksByAuthor.isEmpty()) {
+                        System.out.println("No books found for this author.");
                     } else {
-                        System.out.print("Book not found.");
+                        for (Book b : booksByAuthor) {
+                            System.out.println(b);
+                        }
                     }
                     break;
                 case 5:
                     System.out.print("Type book code that you want: ");
-                    code = sc.nextInt();
+                    int code3 = sc.nextInt();
 
-                    book = findByCode(list, code);
+                    book = findByCodeUsingMap(bookMap, code3);
 
                     if (book == null) {
                         System.out.print("Book not found.");
@@ -121,9 +126,9 @@ public class LibrarySystem {
                 case 6:
 
                     System.out.print("Which book do you wanna return? ");
-                    code = sc.nextInt();
+                    int code4 = sc.nextInt();
 
-                    book = findByCode(list, code);
+                    book = findByCodeUsingMap(bookMap, code4);
 
                     if (book == null) {
                         System.out.println("This book is not part of our library.");
@@ -131,12 +136,14 @@ public class LibrarySystem {
                         if (book.getStatus() == BookStatus.AVAILABLE) {
                             System.out.println("This book is already returned");
                         }
-                        System.out.println("Thanks for return book.");
-                        book.returnBook();
+                        else {
+                            System.out.println("Thanks for return book.");
+                            book.returnBook();
+                        }
                     }
                     break;
                 case 7:
-                    System.out.println("This is a list of books:");
+                    System.out.println("This is a list of books:\n");
                     for (Book b : list) {
                         System.out.println(b);
                     }

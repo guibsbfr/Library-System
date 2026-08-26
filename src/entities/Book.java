@@ -81,11 +81,12 @@ public class Book {
             data.append("Status: ");
             data.append(status).append("\n");
 
+        if (student != null && loan != null) {
             data.append("Lend for: ");
             data.append(student.getName()).append("\n");
             data.append("Will be return on: ");
             data.append(loan.getReturnDate().format(formatter)).append("\n");
-
+        }
         return data.toString();
     }
 }
