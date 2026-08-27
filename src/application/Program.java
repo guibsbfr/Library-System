@@ -10,7 +10,7 @@ import java.util.*;
 
 import static entities.Library.*;
 
-public class LibrarySystem {
+public class Program {
     public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
@@ -117,14 +117,12 @@ public class LibrarySystem {
                             book.borrow(student);
                             System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
 
-
                         } else {
                             System.out.println(book);
                         }
                     }
                     break;
                 case 6:
-
                     System.out.print("Which book do you wanna return? ");
                     int code4 = sc.nextInt();
 
@@ -151,7 +149,6 @@ public class LibrarySystem {
                 case 0:
                     System.out.print("End program");
                     break;
-
             }
         } while (option != 0);
 

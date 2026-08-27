@@ -48,7 +48,7 @@ public class Library {
     }
 
     public static Book findByCodeUsingMap(Map<Integer, Book> map, int code) {
-        return map.get(code);  // retorna null se não existir
+        return map.get(code);
     }
 }
 
