@@ -1,14 +1,14 @@
 package application;
 
-import entities.Book;
-import entities.Loan;
-import entities.Student;
-import enums.BookStatus;
+import model.entities.Book;
+import model.entities.Library;
+import model.entities.Loan;
+import model.entities.Student;
+import model.exceptions.DomainException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static entities.Library.*;
 
 public class Program {
     public static void main(String[] args) {
@@ -16,15 +16,14 @@ public class Program {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+        Library library = new Library();
         List<Book> list = new ArrayList<>();
         Map<Integer, Book> bookMap = new HashMap<>();
 
         int option;
 
         do {
-
-        menu();
+            library.menu();
 
             System.out.print("Choose an option: ");
             option = sc.nextInt();
@@ -32,13 +31,12 @@ public class Program {
             Book book;
             switch (option) {
                 case 1:
-                    System.out.print("Book code: ");
-                    int code = sc.nextInt();
-                    book = findByCode(list, code);
+                    try {
+                        System.out.print("Book code: ");
+                        int code = sc.nextInt();
 
-                    if (book != null) {
-                        System.out.print("This book code already exist");
-                    } else {
+                        library.findDuplicatedCode(list, code);
+
                         System.out.print("Book title: ");
                         sc.nextLine();
                         String title = sc.nextLine();
@@ -50,13 +48,15 @@ public class Program {
                         book = new Book(code, title, author, year);
                         list.add(book);
                         bookMap.put(code, book);
+                    } catch (DomainException e) {
+                        System.out.println("Registration error: " + e.getMessage());
                     }
                     break;
                 case 2:
                     System.out.print("Book code: ");
                     int code2 = sc.nextInt();
 
-                    book = findByCode(list, code2);
+                    book = library.findByCodeUsingMap(bookMap, code2);
 
                     if (book != null) {
                         System.out.print(book);
@@ -69,7 +69,7 @@ public class Program {
                     sc.nextLine();
                     String title = sc.nextLine();
 
-                    book = findByTitle(list, title);
+                    book = library.findByTitle(list, title);
 
                     if (book != null) {
                         System.out.print(book);
@@ -82,62 +82,59 @@ public class Program {
                     sc.nextLine();
                     String author = sc.nextLine();
 
-                    List<Book> booksByAuthor = findByAuthor(list, author);
+                    List<Book> booksByAuthor = library.findByAuthor(list, author);
 
                     if (booksByAuthor.isEmpty()) {
                         System.out.println("No books found for this author.");
                     } else {
                         for (Book b : booksByAuthor) {
+                            System.out.println();
                             System.out.println(b);
                         }
                     }
                     break;
                 case 5:
-                    System.out.print("Type book code that you want: ");
-                    int code3 = sc.nextInt();
+                    try {
+                        System.out.print("Type book code that you want: ");
+                        int code3 = sc.nextInt();
 
-                    book = findByCodeUsingMap(bookMap, code3);
+                        book = library.findByCodeUsingMap(bookMap, code3);
 
-                    if (book == null) {
-                        System.out.print("Book not found.");
-                    } else {
-                        if (book.getStatus() == BookStatus.AVAILABLE) {
-                            System.out.print("Student name: ");
-                            sc.nextLine();
-                            String name = sc.nextLine();
-                            System.out.print("Student ID: ");
-                            int id = sc.nextInt();
-                            System.out.print("Email: ");
-                            sc.nextLine();
-                            String email = sc.nextLine();
+                        System.out.print("Student name: ");
+                        sc.nextLine();
+                        String name = sc.nextLine();
+                        System.out.print("Student ID: ");
+                        int id = sc.nextInt();
+                        System.out.print("Email: ");
+                        sc.nextLine();
+                        String email = sc.nextLine();
 
-                            Student student = new Student(name, email, id);
-                            Loan loan = new Loan(student, book);
-                            book.setLoan(loan);
-                            book.borrow(student);
-                            System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
+                        Student student = new Student(name, email, id);
+                        Loan loan = new Loan(book, student);
+                        student.getLoans().add(loan);
+                        library.students.add(student);
+                        book.setLoan(loan);
+                        loan.borrow();
+                        System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
 
-                        } else {
-                            System.out.println(book);
-                        }
+                    } catch (DomainException e) {
+                        System.out.println("Error in lend this book: " + e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("Operation error.");
                     }
                     break;
                 case 6:
-                    System.out.print("Which book do you wanna return? ");
-                    int code4 = sc.nextInt();
+                    try {
+                        System.out.print("Which book do you wanna return? ");
+                        int code4 = sc.nextInt();
 
-                    book = findByCodeUsingMap(bookMap, code4);
+                        book = library.findByCodeUsingMap(bookMap, code4);
+                        Loan loan = book.getLoan();
 
-                    if (book == null) {
-                        System.out.println("This book is not part of our library.");
-                    } else {
-                        if (book.getStatus() == BookStatus.AVAILABLE) {
-                            System.out.println("This book is already returned");
-                        }
-                        else {
-                            System.out.println("Thanks for return book.");
-                            book.returnBook();
-                        }
+                        loan.returnBook();
+                        System.out.println("Thanks for return book.");
+                    } catch (DomainException e) {
+                        System.out.println("Borrow denied: " + e.getMessage());
                     }
                     break;
                 case 7:
@@ -146,12 +143,21 @@ public class Program {
                         System.out.println(b);
                     }
                     break;
+                case 8:
+                    System.out.print("Student name: ");
+                    sc.nextLine();
+                    String name = sc.nextLine();
+                    System.out.print("Student ID: ");
+                    int id = sc.nextInt();
+
+                    Student student = library.findStudentsByName(name, id);
+                    System.out.println(student);
+                    break;
                 case 0:
                     System.out.print("End program");
                     break;
             }
         } while (option != 0);
-
         sc.close();
     }
 }

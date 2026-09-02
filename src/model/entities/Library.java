@@ -1,4 +1,6 @@
-package entities;
+package model.entities;
+
+import model.exceptions.DomainException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +9,9 @@ import java.util.Objects;
 
 public class Library {
 
+    public List<Student> students = new ArrayList<>();
 
-    public static void menu() {
+    public void menu() {
         System.out.println();
         System.out.println("============ LIBRARY ============");
         System.out.println("1 - Register a book");
@@ -18,17 +21,19 @@ public class Library {
         System.out.println("5 - Lend book");
         System.out.println("6 - Return book");
         System.out.println("7 - List books");
+        System.out.println("8 - List student loans");
         System.out.println("0 - Exit");
     }
-    public static Book findByCode(List<Book> list, int code) {
+
+    public void findDuplicatedCode(List<Book> list, int code) {
         for (Book book : list) {
             if (book.getCode() == code) {
-                return book;
+                throw new DomainException("This code book already exist!");
             }
         }
-        return null;
     }
-    public static List<Book> findByAuthor(List<Book> list, String author) {
+
+    public List<Book> findByAuthor(List<Book> list, String author) {
         List<Book> result = new ArrayList<>();
         for (Book b : list) {
             if (Objects.equals(b.getAuthor(), author)) {
@@ -38,7 +43,7 @@ public class Library {
         return result;
     }
 
-    public static Book findByTitle(List<Book> list, String title) {
+    public Book findByTitle(List<Book> list, String title) {
         for (Book book : list) {
             if (Objects.equals(book.getTitle(), title)) {
                 return book;
@@ -47,8 +52,18 @@ public class Library {
         return null;
     }
 
-    public static Book findByCodeUsingMap(Map<Integer, Book> map, int code) {
+    public Book findByCodeUsingMap(Map<Integer, Book> map, int code) {
         return map.get(code);
+    }
+
+    public Student findStudentsByName(String name, int id) {
+        for (Student std : students) {
+            if (Objects.equals(std.getName(), name))
+                if (Objects.equals(std.getId(), id)) {
+                    return std;
+                }
+            }
+        return null;
     }
 }
 

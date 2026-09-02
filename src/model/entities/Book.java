@@ -1,7 +1,6 @@
-package entities;
+package model.entities;
 
-import enums.BookStatus;
-
+import model.enums.BookStatus;
 import java.time.format.DateTimeFormatter;
 
 public class Book {
@@ -11,7 +10,6 @@ public class Book {
     private String title;
     private String author;
     private int year;
-    private Student student;
     private Loan loan;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -44,10 +42,6 @@ public class Book {
         return author;
     }
 
-    public Integer getYear() {
-        return year;
-    }
-
     public Loan getLoan() {
         return loan;
     }
@@ -56,21 +50,15 @@ public class Book {
         this.loan = loan;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
     public void setStatus(BookStatus status) {
         this.status = status;
     }
 
-    public void borrow(Student student) {
-        this.student = student;
-        setStatus(BookStatus.UNAVAILABLE);
-    }
-
-    public void returnBook() {
-        this.student = null;
-        setStatus(BookStatus.AVAILABLE);
-    }
-
-    public String toString() {
+    public String toString(){
         StringBuilder data = new StringBuilder();
             data.append("Title: ");
             data.append(title).append("\n");
@@ -81,9 +69,8 @@ public class Book {
             data.append("Status: ");
             data.append(status).append("\n");
 
-        if (student != null && loan != null) {
-            data.append("Lend for: ");
-            data.append(student.getName()).append("\n");
+        if (status == BookStatus.UNAVAILABLE) {
+            data.append("\n");
             data.append("Will be return on: ");
             data.append(loan.getReturnDate().format(formatter)).append("\n");
         }
