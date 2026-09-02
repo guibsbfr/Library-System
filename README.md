@@ -51,12 +51,11 @@ The project uses these relationships to practice responsibility separation and o
 - `toString()` overriding
 - Basic software design and responsibility separation
 
-## Technologies
-
+Technologies
 - Java
-- IntelliJ IDEA
-- Git
-- GitHub
+- Collections
+- Exception Handling
+- Object-Oriented Programming
 
 ## Project Structure
 
