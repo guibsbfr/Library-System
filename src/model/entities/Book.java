@@ -1,7 +1,6 @@
 package model.entities;
 
 import model.enums.BookStatus;
-import java.time.format.DateTimeFormatter;
 
 public class Book {
 
@@ -11,8 +10,7 @@ public class Book {
     private String author;
     private int year;
 
-    public Book() {
-    }
+    public Book() {}
 
     public Book(int code, String title, String author, int year) {
         this.code = code;

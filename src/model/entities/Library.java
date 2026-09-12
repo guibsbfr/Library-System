@@ -3,22 +3,26 @@ package model.entities;
 import model.enums.BookStatus;
 import model.exceptions.DomainException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Library {
 
-    public List<Student> students = new ArrayList<>();
     public static Book book;
+
+    private final List<Student> students = new ArrayList<>();
+    private List<Book> list = new ArrayList<>();
+    private final Map<Integer, Book> bookMap = new HashMap<>();
 
     public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public List<Book> getList() {
+        return list;
+    }
+
+    public Map<Integer, Book> getBookMap() {
+        return bookMap;
     }
 
     public void borrow() {
@@ -90,7 +94,11 @@ public class Library {
                     return std;
                 }
             }
-        return null;
+        throw new DomainException("This student is already registered");
+    }
+
+    public void addBook(Book book) {
+        list = Collections.singletonList(book);
     }
 }
 
