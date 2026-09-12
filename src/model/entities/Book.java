@@ -10,9 +10,6 @@ public class Book {
     private String title;
     private String author;
     private int year;
-    private Loan loan;
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Book() {
     }
@@ -42,38 +39,11 @@ public class Book {
         return author;
     }
 
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
-
     public Integer getYear() {
         return year;
     }
 
     public void setStatus(BookStatus status) {
         this.status = status;
-    }
-
-    public String toString(){
-        StringBuilder data = new StringBuilder();
-            data.append("Title: ");
-            data.append(title).append("\n");
-            data.append("Author: ");
-            data.append(author).append("\n");
-            data.append("Year: ");
-            data.append(year).append("\n");
-            data.append("Status: ");
-            data.append(status).append("\n");
-
-        if (status == BookStatus.UNAVAILABLE) {
-            data.append("\n");
-            data.append("Will be return on: ");
-            data.append(loan.getReturnDate().format(formatter)).append("\n");
-        }
-        return data.toString();
     }
 }

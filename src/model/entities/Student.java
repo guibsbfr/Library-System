@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +11,10 @@ public class Student {
     private String email;
     private int id;
 
+    private final List<Loan> loans = new ArrayList<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private final List<Loan> loans = new ArrayList<>();
-
-    public Student() {
-    }
+    public Student() {}
 
     public Student(String name, String email, int id) {
         this.name = name;

@@ -9,7 +9,6 @@ import model.exceptions.DomainException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
 public class Program {
     public static void main(String[] args) {
 
@@ -113,8 +112,7 @@ public class Program {
                         Loan loan = new Loan(book, student);
                         student.getLoans().add(loan);
                         library.students.add(student);
-                        book.setLoan(loan);
-                        loan.borrow();
+                        library.borrow();
                         System.out.println("Successfully, you will return the book on " + loan.getReturnDate().format(formatter));
 
                     } catch (DomainException e) {
@@ -129,10 +127,10 @@ public class Program {
                         int code4 = sc.nextInt();
 
                         book = library.findByCodeUsingMap(bookMap, code4);
-                        Loan loan = book.getLoan();
-
-                        loan.returnBook();
+                        Library.book = book;
+                        library.returnBook(book);
                         System.out.println("Thanks for return book.");
+
                     } catch (DomainException e) {
                         System.out.println("Borrow denied: " + e.getMessage());
                     }

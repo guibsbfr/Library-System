@@ -4,12 +4,16 @@ import model.enums.BookStatus;
 import model.exceptions.DomainException;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Loan {
 
     private final Book book;
     private final LocalDate returnDate;
     private final Student student;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Loan(Book book, Student student) {
         if (book.getStatus() != BookStatus.AVAILABLE) {
@@ -34,21 +38,22 @@ public class Loan {
         return student;
     }
 
-    public void borrow() {
-        if (book.getStatus() != BookStatus.AVAILABLE) {
-            throw new DomainException("This book is unavailable");
-        }else {
-            book.setStatus(BookStatus.UNAVAILABLE);
-        }
-    }
+    public String toString(){
+        StringBuilder data = new StringBuilder();
+        data.append("Title: ");
+        data.append(book.getTitle()).append("\n");
+        data.append("Author: ");
+        data.append(book.getAuthor()).append("\n");
+        data.append("Year: ");
+        data.append(book.getYear()).append("\n");
+        data.append("Status: ");
+        data.append(book.getStatus()).append("\n");
 
-    public void returnBook() {
-        if (book == null) {
-            throw new DomainException("Book is not part of our library.");
+        if (getBook().getStatus() == BookStatus.UNAVAILABLE) {
+            data.append("\n");
+            data.append("Will be return on: ");
+            data.append(getReturnDate().format(formatter));
         }
-        if (book.getStatus() == BookStatus.AVAILABLE) {
-            throw new DomainException("Book is already available.");
-        }
-        book.setStatus(BookStatus.AVAILABLE);
+        return data.toString();
     }
 }

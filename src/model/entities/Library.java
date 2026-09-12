@@ -1,5 +1,6 @@
 package model.entities;
 
+import model.enums.BookStatus;
 import model.exceptions.DomainException;
 
 import java.util.ArrayList;
@@ -10,7 +11,33 @@ import java.util.Objects;
 public class Library {
 
     public List<Student> students = new ArrayList<>();
+    public static Book book;
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void borrow() {
+        if (book.getStatus() != BookStatus.AVAILABLE) {
+            throw new DomainException("This book is unavailable");
+        }else {
+            book.setStatus(BookStatus.UNAVAILABLE);
+        }
+    }
+
+    public void returnBook(Book book) {
+        if (book == null) {
+            throw new DomainException("Book is not part of our library.");
+        }
+        if (book.getStatus() == BookStatus.AVAILABLE) {
+            throw new DomainException("Book is already available.");
+        }
+        book.setStatus(BookStatus.AVAILABLE);
+    }
     public void menu() {
         System.out.println();
         System.out.println("============ LIBRARY ============");
